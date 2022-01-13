@@ -1,9 +1,10 @@
 <template>
   <div>
-    <highcharts :options="chartOptions" :callback="myCallback"></highcharts>
+    <highcharts :options="chartOptions" :callback="dealData"></highcharts>
   </div>
 </template>
 <script>
+import dayjs from "dayjs";
 const chart = {
   chart: {
     type: "column",
@@ -13,8 +14,21 @@ const chart = {
   },
   yAxis: {
     title: {
-      text: "Number",
+      text: "amount",
     },
+  },
+  xAxis: {
+    categories: [],
+    crosshair: true,
+  },
+  tooltip: {
+    headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+    pointFormat:
+      '<tr><td style="color:{series.color};padding-right:20px">&#9679;{series.name} </td>' +
+      "<td ><span> {point.y:  .1f} </span></td></tr>",
+    footerFormat: "</table>",
+    shared: true,
+    useHTML: true,
   },
   legend: {
     layout: "vertical",
@@ -26,35 +40,10 @@ const chart = {
       label: {
         connectorAllowed: false,
       },
-      //   pointStart: 2010,
     },
   },
-  series: [
-    {
-      name: "NewConfirmed",
-      data: [43934, 52503, 57177, 69658, 97031, 119931, 137133, 154175],
-    },
-    {
-      name: "NewDeaths",
-      data: [24916, 24064, 29742, 29851, 32490, 30282, 38121, 40434],
-    },
-    {
-      name: "NewRecovered",
-      data: [11744, 17722, 16005, 19771, 20185, 24377, 32147, 39387],
-    },
-    {
-      name: "TotalConfirmed",
-      data: [null, null, 7988, 12169, 15112, 22452, 34400, 34227],
-    },
-    {
-      name: "TotalDeaths",
-      data: [12908, 5948, 8105, 11248, 8989, 11816, 18274, 18111],
-    },
-    {
-      name: "TotalRecovered",
-      data: [12908, 5948, 8105, 11248, 8989, 11816, 18274, 18111],
-    },
-  ],
+  exporting: { enabled: false },
+  series: [],
   responsive: {
     rules: [
       {
@@ -85,11 +74,34 @@ export default {
       chartOptions: chart,
     };
   },
-  mounted() {},
   methods: {
-    myCallback() {
-      console.log(this.data);
-      console.log("this is callback function");
+    dealData() {
+      let global = this.data.Global;
+      let color = [
+        "#C90076",
+        "#E50017",
+        "#4287f5",
+        "#626369",
+        "#28292b",
+        "#24b524",
+      ];
+      let arr = [];
+      let globalData = {};
+      let name = Object.keys(global);
+      let data = Object.values(global);
+      data.splice(6, 1);
+      for (let i = 0; i < color.length; i++) {
+        globalData = {
+          color: color[i],
+          name: name[i],
+          data: [data[i]],
+        };
+        arr.push(globalData);
+      }
+      let date = dayjs(this.data.Date).format("YYYY-MM-DD");
+      chart.xAxis.categories.push(date);
+      chart.series = arr;
+      //   console.log(arr);
     },
   },
 };

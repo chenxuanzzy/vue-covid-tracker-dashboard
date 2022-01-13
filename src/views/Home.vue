@@ -21,7 +21,7 @@
     </button> -->
   </main>
   <main v-else class="flex flex-col align-center justify-center text-center">
-    <div class="text-gray-500 text-3xl mt-10 mb-6">getData</div>
+    <div class="text-gray-500 text-3xl mt-10 mb-6">Fetching Data</div>
     <img :src="loadingImage" class="w-24 m-auto" alt="" />
   </main>
 </template>
@@ -32,8 +32,6 @@ import DataBoxes from "@/components/DataBoxes";
 import CountrySelect from "@/components/CountrySelect";
 import HighChart from "@/components/HighChart";
 import axios from "axios";
-
-// Vue.forceUpdate();
 export default {
   name: "Home",
   components: {
