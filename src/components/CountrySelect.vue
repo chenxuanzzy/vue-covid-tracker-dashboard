@@ -27,10 +27,14 @@ export default {
   },
   methods: {
     onChange() {
+      let selected = this.selected;
       const country = this.countries.find((item) => {
-        item.ID === this.selected;
+        return item.ID === this.selected;
       });
-      this.$emit("get-country", country);
+      this.$emit("get-country", { country, selected });
+    },
+    forceRender() {
+      this.$forceUpdate();
     },
   },
 };

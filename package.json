@@ -12,6 +12,7 @@
     "autoprefixer": "^9",
     "core-js": "^3.6.5",
     "dayjs": "^1.10.7",
+    "highcharts-vue": "^1.4.0",
     "postcss": "^7",
     "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.0.2",
     "vue": "^2.6.11",

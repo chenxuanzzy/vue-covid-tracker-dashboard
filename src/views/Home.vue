@@ -3,7 +3,8 @@
     <DataTitle :text="title" :dataDate="dataDate" />
     <DataBoxes :stats="stats" />
     <CountrySelect @get-country="getCountryData" :countries="countries" />
-    <button
+    <HighChart class="highchart" :data="orgData" />
+    <!-- <button
       @click="clearCountryData"
       v-if="stats.Country"
       class="
@@ -17,7 +18,7 @@
       "
     >
       Clear Country
-    </button>
+    </button> -->
   </main>
   <main v-else class="flex flex-col align-center justify-center text-center">
     <div class="text-gray-500 text-3xl mt-10 mb-6">getData</div>
@@ -29,13 +30,17 @@
 import DataTitle from "@/components/DataTitle";
 import DataBoxes from "@/components/DataBoxes";
 import CountrySelect from "@/components/CountrySelect";
+import HighChart from "@/components/HighChart";
 import axios from "axios";
+
+// Vue.forceUpdate();
 export default {
   name: "Home",
   components: {
     DataTitle,
     DataBoxes,
     CountrySelect,
+    HighChart,
   },
   data() {
     return {
@@ -45,6 +50,7 @@ export default {
       stats: {},
       countries: [],
       loadingImage: require("../assets/hourglass.gif"),
+      orgData: {},
     };
   },
   methods: {
@@ -57,25 +63,38 @@ export default {
           this.dataDate = res.data.Date;
           this.countries = res.data.Countries;
           this.loading = false;
+          this.orgData = res.data;
         })
         .catch((error) => {
           console.log(error);
         });
     },
-    getCountryData(country) {
-      this.stats = country;
-      this.title = country.Country;
+    getCountryData(data) {
+      let { country, selected } = data;
+      if (selected === "0") {
+        this.fetchCovidData();
+        this.title = "Global";
+      } else {
+        this.stats = country;
+        this.title = country.Country;
+      }
     },
-    async clearCountryData() {
-      this.loading = true;
-      const data = await this.fetchCovidData();
-      this.title = "Global";
-      this.stats = data.Global;
-      this.loading = false;
-    },
+    // async clearCountryData() {
+    //   this.loading = true;
+    //   const data = await this.fetchCovidData();
+    //   this.title = "Global";
+    //   this.stats = data.Global;
+    //   this.loading = false;
+    // },
   },
   async created() {
     await this.fetchCovidData();
   },
 };
 </script>
+
+<style scope>
+.highchart {
+  padding: 20px;
+}
+</style>

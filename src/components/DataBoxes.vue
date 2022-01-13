@@ -21,7 +21,7 @@
       </div>
       <div class="text-2xl mb-4">
         <span class="font-bold">Total:</span>
-        {{ toThreeDig(stats.NewDeaths) }}
+        {{ toThreeDig(stats.TotalDeaths) }}
       </div>
     </div>
   </div>
