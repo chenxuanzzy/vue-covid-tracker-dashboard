@@ -76,7 +76,6 @@ export default {
   },
   methods: {
     dealData() {
-      let global = this.data.Global;
       let color = [
         "#C90076",
         "#E50017",
@@ -86,12 +85,11 @@ export default {
         "#24b524",
       ];
       let arr = [];
-      let globalData = {};
-      let name = Object.keys(global);
-      let data = Object.values(global);
+      let name = Object.keys(this.data.Global);
+      let data = Object.values(this.data.Global);
       data.splice(6, 1);
       for (let i = 0; i < color.length; i++) {
-        globalData = {
+        let globalData = {
           color: color[i],
           name: name[i],
           data: [data[i]],
@@ -101,7 +99,6 @@ export default {
       let date = dayjs(this.data.Date).format("YYYY-MM-DD");
       chart.xAxis.categories.push(date);
       chart.series = arr;
-      //   console.log(arr);
     },
   },
 };

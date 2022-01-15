@@ -35,7 +35,7 @@ export default {
       this.$emit("get-country", { country, selected, highchartData });
     },
     chgData(country) {
-      console.log(country);
+      console.log("se", country);
       // let color = [
       //   "#C90076",
       //   "#E50017",
